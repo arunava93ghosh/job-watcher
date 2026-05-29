@@ -1,0 +1,61 @@
+ARUNAVA GHOSH — Strategy & Technology Professional
+Email: arunava93ghosh@gmail.com | LinkedIn: linkedin.com/in/arunava93ghosh
+
+PROFILE
+Strategy and technology professional with roughly 5-6 years of post-PhD industry
+experience across corporate / business strategy, technology consulting, and
+business analysis. Strong background in pharmaceuticals & life sciences
+(biologics/biosimilars, CDMO, capsule manufacturing), digital transformation,
+BI and analytics (Power BI), and program / product management. Ph.D. (Fellow
+Program in Management) from IIM Indore in the Information Systems domain.
+
+EXPERIENCE
+
+Strategy Manager — Enzene Biosciences (subsidiary of Alkem Laboratories)
+July 2025 – Present
+- Pharma & Life Sciences: biologics/biosimilars development, CDMO manufacturing and supply.
+- Led monthly Investor MIS reviews and target-closing meetings with leadership and investors.
+- Built a Balanced Scorecard framework with Business Unit Heads; drove change management.
+- Developed a CAPEX investment plan and Go-to-Market strategy for the Pertuzumab launch.
+- Drafted RFP responses and standardized proposal templates with Business Development.
+- Authored the enterprise AI policy & data-classification framework; led enterprise-wide
+  AI adoption (Claude Enterprise) and built an AI training / certification module.
+
+Assistant Strategy Manager — ACG Associated Capsules
+October 2024 – June 2025
+- Pharma & Life Sciences: capsule manufacturing; secondary market research (North America).
+- Built a customer-churn early-warning system (KPIs; hunting vs. farming strategy).
+- Produced monthly Balanced/Functional Scorecards and a strategic-initiative tracker.
+- GTM counter-strategy for US tariffs; growth strategy for combo deals (APAC / Europe / MEA).
+- Power Automate + Power BI automation; SharePoint-integrated BI; CEO dashboard as Product
+  Manager. Received the Golden Spot Award.
+
+Technology Consultant — PwC India
+November 2021 – September 2024
+- Business Analyst and Team Lead across FMCG, software, tyre-manufacturing, and US clients.
+- Requirement gathering (BRD/FSD), as-is / to-be process design (Visio), data migration.
+- Power BI dashboard development (DAX, time intelligence, field parameters), SQL,
+  SharePoint data pipelines. PwC-certified in Power BI.
+- Process mining (Celonis) for manufacturing optimization; R&D / thought leadership;
+  whitepaper on cognitive process mining.
+
+Assistant Professor — UPES Dehradun
+September 2020 – October 2021
+- MBA courses: Digital Business, Business Analytics, Digital Marketing, Social Media
+  Analytics, Energy Analytics, Industry 4.0 (rated 4.6/5). Faculty in-charge,
+  Entrepreneurship Cell.
+
+SKILLS
+Strategy: Corporate/Business Strategy, Go-to-Market (GTM), Growth Strategy, Market
+Research, Competitive Analysis & Benchmarking, IT / Technology Strategy, Stakeholder
+Management, Strategic Planning.
+Technology / Analytics: Power BI (development), DAX, SQL, Data Analytics, Business
+Analysis, SmartPLS, Celonis (process mining), Power Automate, Zoho Analytics.
+Delivery: Project & Program Management, Product Management, Agile / Scrum, JIRA,
+Digital Transformation, Microsoft Office (Excel, PowerPoint, Visio).
+
+EDUCATION
+Fellow Program in Management (Ph.D. + MBA coursework), IIM Indore, 2015–2020 —
+Information Systems. Thesis published in Marketing Intelligence & Planning (ABDC: A).
+B.E. Computer Science, West Bengal University of Technology, 2011–2015.
+International internship (text mining) at KAIST, South Korea.

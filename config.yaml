@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+# Settings you can tweak. After changing anything here, commit the file on
+# GitHub (pencil icon -> Commit changes) and the next run will use it.
+# ---------------------------------------------------------------------------
+
+# Email a job only if its match score is at least this (0-100).
+# Higher = fewer, stronger matches. Lower = more matches. 70 is a good start.
+match_threshold: 70
+
+# Target experience band, in years. A job qualifies only if its required
+# experience falls in / overlaps this range.
+experience_min_years: 5
+experience_max_years: 7
+
+# --- PwC Acceleration Centres (jobs-ta.pwc.com) ---
+pwc_domain: jobs-ta.pwc.com
+pwc_refnum: PACPACGLOBAL   # site code; the script auto-detects it too
+pwc_size: 100             # how many of the newest jobs to pull each run
+
+# --- Deloitte USI (usijobs.deloitte.com) ---
+deloitte_max_pages: 5     # pages of 10 newest jobs to scan each run (50 jobs)
