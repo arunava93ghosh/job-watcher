@@ -1,0 +1,22 @@
+name: test-email
+
+# Runs ONLY when you click "Run workflow" — never on its own.
+on:
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send a test email via Resend
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: |
+          echo "Sending a test email to: $EMAIL_TO"
+          curl -sS -X POST "https://api.resend.com/emails" \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"from\":\"onboarding@resend.dev\",\"to\":[\"$EMAIL_TO\"],\"subject\":\"Job Watcher - test email\",\"html\":\"<div style='font-family:system-ui,sans-serif'><h2>It works!</h2><p>This is a test from your Job Watcher. Real alerts will look like this and list new matching jobs from PwC and Deloitte USI.</p></div>\"}"
+          echo ""
+          echo "Done. If a line containing an \"id\" appeared above, Resend accepted the email -- check your inbox (and the Spam / Promotions tab)."
