@@ -112,6 +112,9 @@ def fetch_pwc(cfg: dict, company: str = "PwC Acceleration Centres"):
             continue
         url = (j.get("applyUrl") or j.get("jobUrl")
                or f"https://{domain}/global/en/job/{jid}")
+        # The page to open for the FULL description (job page, not apply form).
+        detail_url = (j.get("jobUrl") or j.get("applyUrl")
+                      or f"https://{domain}/global/en/job/{jid}")
         loc = (j.get("cityStateCountry") or j.get("location")
                or ", ".join(x for x in [j.get("city"), j.get("state"),
                                         j.get("country")] if x))
@@ -123,6 +126,7 @@ def fetch_pwc(cfg: dict, company: str = "PwC Acceleration Centres"):
             "location": loc,
             "description": clean_text(desc),
             "company": company,
+            "_detail_url": detail_url,   # opened later, only for NEW jobs
         })
     return jobs
 
@@ -192,6 +196,53 @@ def fill_deloitte_description(job: dict, sess: requests.Session):
         job["description"] = clean_text(soup.get_text(" ", strip=True), 6000)
     except Exception as e:
         print(f"  (deloitte) detail fetch failed for {job['id']}: {e}")
+
+
+def fill_pwc_description(job: dict, sess: requests.Session):
+    """Open a PwC job's page and read the FULL description (new jobs only).
+
+    PwC (Phenom) job pages embed the complete posting as JSON-LD 'JobPosting'
+    data (the same structured data Google for Jobs reads). We pull the
+    description from there. If anything fails or the fetched text isn't more
+    complete than what the search API already gave us, we keep the API text --
+    so this can never make matching worse.
+    """
+    url = job.get("_detail_url") or job.get("url")
+    if not url:
+        return
+    try:
+        r = sess.get(url, timeout=30)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        full = ""
+        for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
+            raw = tag.string or tag.get_text() or ""
+            try:
+                data = json.loads(raw)
+            except Exception:
+                continue
+            # Flatten possible lists / @graph wrappers, then look for JobPosting.
+            items = data if isinstance(data, list) else [data]
+            flat = []
+            for it in items:
+                if isinstance(it, dict) and isinstance(it.get("@graph"), list):
+                    flat.extend(it["@graph"])
+                else:
+                    flat.append(it)
+            for it in flat:
+                if isinstance(it, dict) and str(it.get("@type", "")).lower() == "jobposting":
+                    if it.get("description"):
+                        full = clean_text(it["description"])
+                        break
+            if full:
+                break
+
+        # Only replace if we actually got something more complete.
+        if full and len(full) > len(job.get("description", "")):
+            job["description"] = full
+    except Exception as e:
+        print(f"  (pwc) full-description fetch failed for {job['id']}: {e}")
 
 
 # --------------------------------------------------------------------------
@@ -347,11 +398,14 @@ def main():
     if new_jobs:
         cv = CV_PATH.read_text()
         client = Anthropic()  # reads ANTHROPIC_API_KEY
-        dsess = requests.Session()
-        dsess.headers.update({"User-Agent": UA})
+        web = requests.Session()
+        web.headers.update({"User-Agent": UA})
         for j in new_jobs:
-            if j.get("_detail_url") and not j["description"]:
-                fill_deloitte_description(j, dsess)
+            # For each NEW job, open its page and read the full posting.
+            if j["id"].startswith("pwc:"):
+                fill_pwc_description(j, web)
+            elif j["id"].startswith("deloitte:") and not j["description"]:
+                fill_deloitte_description(j, web)
             score, fit, stated, reason = score_job(client, cv, j, exp_min, exp_max)
             ok = score >= threshold and fit
             print(f"  [{score:>3} | exp:{'Y' if fit else 'N'} | "
