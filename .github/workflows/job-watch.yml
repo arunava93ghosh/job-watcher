@@ -1,9 +1,13 @@
 name: job-watch
 
 on:
+  # Fired on time by an external scheduler (cron-job.org) via the GitHub API.
+  workflow_dispatch: {}
+  # Low-frequency safety net: if the external scheduler ever stops, GitHub still
+  # runs this a few times a day on its own. (GitHub's own schedule can be late;
+  # that's fine for a fallback.)
   schedule:
-    - cron: "*/30 * * * *"    # about every 30 minutes (times are UTC)
-  workflow_dispatch: {}        # adds a "Run workflow" button for manual runs
+    - cron: "17 */6 * * *"   # roughly every 6 hours (UTC); :17 avoids the busy top-of-hour
 
 permissions:
   contents: write              # needed so it can save seen.json back to the repo
