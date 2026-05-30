@@ -18,4 +18,4 @@ pwc_refnum: PACPACGLOBAL   # site code; the script auto-detects it too
 pwc_size: 100             # how many of the newest jobs to pull each run
 
 # --- Deloitte USI (usijobs.deloitte.com) ---
-deloitte_max_pages: 5     # pages of 10 newest jobs to scan each run (50 jobs)
+deloitte_max_pages: 20     # pages of 10 newest jobs to scan each run (50 jobs)
