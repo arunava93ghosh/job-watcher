@@ -47,11 +47,29 @@ companies:
     enabled: true
     verify: true
 
+  # Accenture -> Workday (verified tenant accenture.wd103 / site AccentureCareers)
+  - name: Accenture
+    platform: workday
+    workday_tenant: accenture
+    workday_dc: wd103
+    workday_site: AccentureCareers
+    enabled: true
+    verify: true
+
+  # Marsh McLennan group -> Phenom at careers.marsh.com (covers Marsh, Mercer,
+  # and Oliver Wyman). One feed; the LLM still matches each role to your CV.
+  - name: Marsh McLennan (Marsh / Mercer / Oliver Wyman)
+    platform: phenom
+    phenom_domain: careers.marsh.com
+    idns: marshmclennan
+    enabled: true
+    verify: true
+
   # ===== Tier B: LinkedIn fallback to start (upgrade to direct feeds later) =====
   - { name: McKinsey & Company, platform: linkedin, enabled: true }
   - { name: Bain & Company, platform: linkedin, enabled: true }
   - { name: Kearney, platform: linkedin, enabled: true }
-  - { name: Oliver Wyman, platform: linkedin, enabled: true }
+  - { name: Oliver Wyman, platform: linkedin, enabled: false }  # covered by Marsh McLennan Phenom feed above
   - { name: Roland Berger, platform: linkedin, enabled: true }
   - { name: "L.E.K. Consulting", platform: linkedin, enabled: true }
   - { name: "Strategy& (PwC)", platform: linkedin, enabled: true }
@@ -83,8 +101,8 @@ companies:
   - { name: Protiviti, platform: linkedin, enabled: true }
 
   - { name: Aon, platform: linkedin, enabled: true }
-  - { name: Marsh, platform: linkedin, enabled: true }
-  - { name: Mercer, platform: linkedin, enabled: true }
+  - { name: Marsh, platform: linkedin, enabled: false }  # covered by Marsh McLennan Phenom feed above
+  - { name: Mercer, platform: linkedin, enabled: false }  # covered by Marsh McLennan Phenom feed above
   - { name: Korn Ferry, platform: linkedin, enabled: true }
   - { name: WTW, platform: linkedin, enabled: true }
 
