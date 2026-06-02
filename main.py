@@ -173,12 +173,18 @@ def fetch_deloitte(company="Deloitte USI", seen=None, max_pages=5):
 
 
 # ---- Workday (generic CXS JSON API) ----
-def fetch_workday(company, tenant, dc, site, limit=50):
+def fetch_workday(company, tenant, dc, site, limit=20):
     base = f"https://{tenant}.{dc}.myworkdayjobs.com"
     cxs = f"{base}/wday/cxs/{tenant}/{site}/jobs"
     sess = new_session()
-    sess.headers.update({"Content-Type": "application/json",
-                         "Accept": "application/json"})
+    # Workday's CXS endpoint rejects requests that don't look like they came
+    # from the site itself; a matching Referer/Origin + JSON headers fix the 400.
+    sess.headers.update({
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Origin": base,
+        "Referer": f"{base}/{site}",
+    })
     payload = {"appliedFacets": {}, "limit": limit, "offset": 0, "searchText": ""}
     r = sess.post(cxs, json=payload, timeout=30)
     r.raise_for_status()
@@ -260,6 +266,7 @@ def fetch_smartrecruiters(company, token):
 
 # ---- LinkedIn guest fallback (best-effort; may be blocked from CI IPs) ----
 def fetch_linkedin(company, location, pages=2):
+    import time, random
     sess = new_session()
     sess.headers.update({"Accept": "text/html"})
     out, seen_ids = [], set()
@@ -268,15 +275,26 @@ def fetch_linkedin(company, location, pages=2):
         url = ("https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
                f"?keywords={quote_plus(company)}&location={quote_plus(location)}"
                f"&start={page*25}")
-        try:
-            r = sess.get(url, timeout=30)
-            if r.status_code != 200:
-                if page == 0:
-                    print(f"  ({company}) linkedin returned HTTP {r.status_code} "
-                          f"(often a block from CI IPs)")
-                break
-        except Exception as e:
-            print(f"  ({company}) linkedin failed: {e}"); break
+        # Small randomized pause spreads requests out; LinkedIn throttles bursts
+        # from one IP (the cause of the 429 cascade across many companies).
+        time.sleep(random.uniform(1.5, 3.5))
+        r = None
+        for attempt in range(2):
+            try:
+                r = sess.get(url, timeout=30)
+            except Exception as e:
+                print(f"  ({company}) linkedin failed: {e}"); r = None; break
+            if r.status_code == 429 and attempt == 0:
+                time.sleep(8)   # back off once, then retry
+                continue
+            break
+        if r is None:
+            break
+        if r.status_code != 200:
+            if page == 0:
+                print(f"  ({company}) linkedin returned HTTP {r.status_code} "
+                      f"(often a block from CI IPs)")
+            break
         soup = BeautifulSoup(r.text, "html.parser")
         cards = soup.select("li")
         if not cards:
