@@ -88,7 +88,7 @@ companies:
   - { name: Kroll, platform: linkedin, enabled: true }
   - { name: Control Risks, platform: linkedin, enabled: true }
 
-  - { name: Accenture, platform: linkedin, enabled: true }
+  - { name: Accenture, platform: linkedin, enabled: false }  # covered by Accenture Workday feed above
   - { name: IBM Consulting, platform: linkedin, enabled: true }
   - { name: Capgemini Invent, platform: linkedin, enabled: true }
   - { name: Publicis Sapient, platform: linkedin, enabled: true }
