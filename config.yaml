@@ -1,21 +1,112 @@
+# ===========================================================================
+# Job Watcher configuration
 # ---------------------------------------------------------------------------
-# Settings you can tweak. After changing anything here, commit the file on
-# GitHub (pencil icon -> Commit changes) and the next run will use it.
-# ---------------------------------------------------------------------------
-
-# Email a job only if its match score is at least this (0-100).
-# Higher = fewer, stronger matches. Lower = more matches. 70 is a good start.
+# After editing, commit this file on GitHub; the next run uses it.
+# ===========================================================================
 match_threshold: 70
-
-# Target experience band, in years. A job qualifies only if its required
-# experience falls in / overlaps this range.
 experience_min_years: 5
 experience_max_years: 7
 
-# --- PwC Acceleration Centres (jobs-ta.pwc.com) ---
-pwc_domain: jobs-ta.pwc.com
-pwc_refnum: PACPACGLOBAL   # site code; the script auto-detects it too
-pwc_size: 100             # how many of the newest jobs to pull each run
+# LinkedIn fallback (used for any company with `platform: linkedin`).
+# IMPORTANT: LinkedIn often blocks automated requests from GitHub's servers,
+# so these may return 0 from the scheduled run even when they work in your
+# browser. Treat LinkedIn entries as BEST-EFFORT. The reliable long-term path
+# for a company is a direct feed (see COMPANIES_STATUS.md).
+linkedin_fallback_enabled: true
+linkedin_location: "India"
+linkedin_pages: 2
 
-# --- Deloitte USI (usijobs.deloitte.com) ---
-deloitte_max_pages: 20     # pages of 10 newest jobs to scan each run (50 jobs)
+# ---------------------------------------------------------------------------
+# COMPANIES   (platform values: pwc, deloitte, phenom, workday, greenhouse,
+#              lever, ashby, smartrecruiters, linkedin)
+# `verify: true` = best-guess from research, NOT yet confirmed live. Use the
+# discovery tool on GitHub (COMPANIES_STATUS.md) to confirm/correct.
+# ---------------------------------------------------------------------------
+companies:
+
+  # ===== Tier A: direct feeds (PwC & Deloitte LIVE; BCG & IQVIA researched) =====
+  - name: PwC Acceleration Centres
+    platform: pwc
+    enabled: true
+
+  - name: Deloitte USI
+    platform: deloitte
+    enabled: true
+
+  - name: Boston Consulting Group
+    platform: phenom
+    phenom_domain: careers.bcg.com
+    enabled: true
+    verify: true
+
+  - name: IQVIA
+    platform: workday
+    workday_tenant: iqvia
+    workday_dc: wd1
+    workday_site: IQVIA
+    enabled: true
+    verify: true
+
+  # ===== Tier B: LinkedIn fallback to start (upgrade to direct feeds later) =====
+  - { name: McKinsey & Company, platform: linkedin, enabled: true }
+  - { name: Bain & Company, platform: linkedin, enabled: true }
+  - { name: Kearney, platform: linkedin, enabled: true }
+  - { name: Oliver Wyman, platform: linkedin, enabled: true }
+  - { name: Roland Berger, platform: linkedin, enabled: true }
+  - { name: "L.E.K. Consulting", platform: linkedin, enabled: true }
+  - { name: "Strategy& (PwC)", platform: linkedin, enabled: true }
+  - { name: EY-Parthenon, platform: linkedin, enabled: true }
+  - { name: "Arthur D. Little", platform: linkedin, enabled: true }
+  - { name: "OC&C Strategy Consultants", platform: linkedin, enabled: true }
+  - { name: Simon-Kucher, platform: linkedin, enabled: true }
+
+  - { name: EY, platform: linkedin, enabled: true }
+  - { name: KPMG, platform: linkedin, enabled: true }
+  - { name: Grant Thornton, platform: linkedin, enabled: true }
+  - { name: BDO, platform: linkedin, enabled: true }
+  - { name: "Alvarez & Marsal", platform: linkedin, enabled: true }
+  - { name: FTI Consulting, platform: linkedin, enabled: true }
+  - { name: Ankura, platform: linkedin, enabled: true }
+  - { name: Kroll, platform: linkedin, enabled: true }
+  - { name: Control Risks, platform: linkedin, enabled: true }
+
+  - { name: Accenture, platform: linkedin, enabled: true }
+  - { name: IBM Consulting, platform: linkedin, enabled: true }
+  - { name: Capgemini Invent, platform: linkedin, enabled: true }
+  - { name: Publicis Sapient, platform: linkedin, enabled: true }
+  - { name: Infosys Consulting, platform: linkedin, enabled: true }
+  - { name: Cognizant Consulting, platform: linkedin, enabled: true }
+  - { name: Wipro Consulting, platform: linkedin, enabled: true }
+  - { name: TCS Consulting, platform: linkedin, enabled: true }
+  - { name: NTT DATA Consulting, platform: linkedin, enabled: true }
+  - { name: Capco, platform: linkedin, enabled: true }
+  - { name: Protiviti, platform: linkedin, enabled: true }
+
+  - { name: Aon, platform: linkedin, enabled: true }
+  - { name: Marsh, platform: linkedin, enabled: true }
+  - { name: Mercer, platform: linkedin, enabled: true }
+  - { name: Korn Ferry, platform: linkedin, enabled: true }
+  - { name: WTW, platform: linkedin, enabled: true }
+
+  - { name: ZS Associates, platform: linkedin, enabled: true }
+  - { name: Putnam Associates, platform: linkedin, enabled: true }
+  - { name: Clarivate, platform: linkedin, enabled: true }
+  - { name: Cytel, platform: linkedin, enabled: true }
+  - { name: Everest Group, platform: linkedin, enabled: true }
+  - { name: Zinnov, platform: linkedin, enabled: true }
+  - { name: ISG, platform: linkedin, enabled: true }
+  - { name: HFS Research, platform: linkedin, enabled: true }
+  - { name: NelsonHall, platform: linkedin, enabled: true }
+
+  - { name: GEP, platform: linkedin, enabled: true }
+  - { name: Efficio, platform: linkedin, enabled: true }
+  - { name: "Argon & Co", platform: linkedin, enabled: true }
+  - { name: Miebach Consulting, platform: linkedin, enabled: true }
+
+  - { name: Nexdigm, platform: linkedin, enabled: true }
+  - { name: Primus Partners, platform: linkedin, enabled: true }
+  - { name: Praxis Global Alliance, platform: linkedin, enabled: true }
+  - { name: Avalon Consulting, platform: linkedin, enabled: true }
+  - { name: Acuvon Consulting, platform: linkedin, enabled: true }
+  - { name: Redseer Strategy Consultants, platform: linkedin, enabled: true }
+  - { name: Kanvic Consulting, platform: linkedin, enabled: true }
